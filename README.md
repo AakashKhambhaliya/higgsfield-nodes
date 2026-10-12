@@ -30,7 +30,7 @@ comfy node install higgsfield-nodes
 **3. Manually (git)**
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/YOUR-GITHUB-USERNAME/higgsfield-nodes
+git clone https://github.com/AakashKhambhaliya/higgsfield-nodes
 pip install -r higgsfield-nodes/requirements.txt
 ```
 (Windows portable: use `python_embeded\python.exe -m pip install -r …`.) Restart ComfyUI.

@@ -15,12 +15,12 @@ classifiers = [
 keywords = ["comfyui", "higgsfield", "seedance", "kling", "wan", "soul", "gpt-image", "video", "api"]
 
 [project.urls]
-Repository = "https://github.com/YOUR-GITHUB-USERNAME/higgsfield-nodes"
-Documentation = "https://github.com/YOUR-GITHUB-USERNAME/higgsfield-nodes#readme"
-"Bug Tracker" = "https://github.com/YOUR-GITHUB-USERNAME/higgsfield-nodes/issues"
+Repository = "https://github.com/AakashKhambhaliya/higgsfield-nodes"
+Documentation = "https://github.com/AakashKhambhaliya/higgsfield-nodes#readme"
+"Bug Tracker" = "https://github.com/AakashKhambhaliya/higgsfield-nodes/issues"
 
 [tool.comfy]
-PublisherId = "YOUR-GITHUB-USERNAME"
+PublisherId = "AakashKhambhaliya"
 DisplayName = "Higgsfield API Nodes (unofficial)"
-Icon = "https://raw.githubusercontent.com/YOUR-GITHUB-USERNAME/higgsfield-nodes/main/assets/icon.png"
+Icon = "https://raw.githubusercontent.com/AakashKhambhaliya/higgsfield-nodes/main/assets/icon.png"
 requires-comfyui = ">=0.14.0"
