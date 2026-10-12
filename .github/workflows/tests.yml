@@ -1,0 +1,68 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"   # weekly: catches ComfyUI or Higgsfield changes even without new commits
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    name: Unit tests (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -r requirements.txt numpy pillow
+      - run: python -m unittest discover -s tests -v
+
+  comfyui:
+    name: Inside ComfyUI ${{ matrix.comfyui }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        comfyui: ["v0.14.0", "master"]   # oldest supported and latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: higgsfield-nodes
+      - uses: actions/checkout@v4
+        with:
+          repository: comfyanonymous/ComfyUI
+          ref: ${{ matrix.comfyui }}
+          path: ComfyUI
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install ComfyUI (CPU)
+        run: |
+          pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install -r ComfyUI/requirements.txt
+          pip install -r higgsfield-nodes/requirements.txt
+      - name: Node build, schema and error-handling tests
+        working-directory: higgsfield-nodes
+        env:
+          PYTHONPATH: ${{ github.workspace }}/higgsfield-nodes:${{ github.workspace }}/ComfyUI
+        run: python -m unittest discover -s tests -v
+      - name: ComfyUI starts and registers the nodes
+        run: |
+          ln -s "$GITHUB_WORKSPACE/higgsfield-nodes" ComfyUI/custom_nodes/higgsfield-nodes
+          cd ComfyUI
+          python main.py --cpu --port 8199 --disable-auto-launch > server.log 2>&1 &
+          for i in $(seq 1 90); do curl -sf http://127.0.0.1:8199/system_stats >/dev/null && break; sleep 2; done
+          count=$(curl -s http://127.0.0.1:8199/object_info | python -c "import json,sys; print(sum(k.startswith('Higgsfield_') for k in json.load(sys.stdin)))")
+          echo "Higgsfield nodes registered: $count"
+          grep -i higgsfield server.log || true
+          test "$count" -ge 30

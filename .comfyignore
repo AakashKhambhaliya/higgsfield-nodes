@@ -1,0 +1,7 @@
+# Kept in git, left out of the package users install (same syntax as .gitignore).
+tests/
+.github/
+CHANGELOG.md
+tools/param_types.py
+tools/catalog_report.py
+*.bak

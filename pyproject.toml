@@ -1,0 +1,26 @@
+[project]
+name = "higgsfield-nodes"
+version = "0.9.0"
+description = "Unofficial Higgsfield API nodes for ComfyUI: one node per model (Seedance, Kling, Wan, Soul, GPT Image, Cinema Studio…), every documented setting, live price, cost limits and model auto-updates. Bring your own Higgsfield API key."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.24,<1",
+    "comfyui-frontend-package>=1.38",
+]
+classifiers = [
+    "Operating System :: OS Independent",
+]
+keywords = ["comfyui", "higgsfield", "seedance", "kling", "wan", "soul", "gpt-image", "video", "api"]
+
+[project.urls]
+Repository = "https://github.com/YOUR-GITHUB-USERNAME/higgsfield-nodes"
+Documentation = "https://github.com/YOUR-GITHUB-USERNAME/higgsfield-nodes#readme"
+"Bug Tracker" = "https://github.com/YOUR-GITHUB-USERNAME/higgsfield-nodes/issues"
+
+[tool.comfy]
+PublisherId = "YOUR-GITHUB-USERNAME"
+DisplayName = "Higgsfield API Nodes (unofficial)"
+Icon = "https://raw.githubusercontent.com/YOUR-GITHUB-USERNAME/higgsfield-nodes/main/assets/icon.png"
+requires-comfyui = ">=0.14.0"
